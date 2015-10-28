@@ -1,0 +1,14 @@
+{block content}
+<div class="cover-container">
+  <h1>Hra {$game->name} se připravuje...</h1>
+<br>
+<div class="inner cover">
+<h2>Přidat hráče</h2>
+            {form addPlayerForm}
+            <p class="lead">{input name class => "form-control", placeholder => "Název"}</p>
+              {input submit class => "btn btn-default"}
+            {/form}
+          </div>
+<h2>Seznam hráčů</h2>
+<button type="button" class="btn btn-default btn-lg active">Zahájit hru</button>
+</div>
