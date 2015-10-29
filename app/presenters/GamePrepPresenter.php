@@ -21,6 +21,21 @@ class GamePrepPresenter extends BasePresenter
 		$this->template->game = $this->game;
 	}
 
-	
+	public function renderJoinGame($id) {
+		$this->game = $this->gameDb->getGame($id);
+		$this->template->game = $this->game;
+	}
+
+	public function createComponentJoinGameForm() {
+		$form = new UI\Form;
+		$form->addText('name', 'Přezdívka:');
+		$form->addSubmit('submit', 'Připojit se do hry');
+        $form->onSuccess[] = array($this, 'joinGameFormSucceeded');
+        return $form;
+	}
+
+	public function addGameFormSucceeded(UI\Form $form, $values) {
+		//TODO Join game
+	}
 
 }

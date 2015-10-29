@@ -1,0 +1,13 @@
+{block content}
+	<div class="cover-container">
+	  <h1>Připojování do hry {$game->name}:</h1>
+	<br>
+
+	{form joinGameForm}
+            <p class="lead">{input name class => "form-control", placeholder => "Vaše přezdívka"}</p>
+            <p class="lead">
+              {input submit class => "btn btn-lg btn-default"}
+            </p>
+    {/form}
+
+</div>
