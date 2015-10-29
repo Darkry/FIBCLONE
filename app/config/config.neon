@@ -21,5 +21,6 @@ session:
 
 services:
 	- App\Model\GameManager
+	- App\Model\PlayerManager
 	- App\Forms\SignFormFactory
 	router: App\RouterFactory::createRouter
