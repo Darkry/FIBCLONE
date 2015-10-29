@@ -16,36 +16,14 @@ class PlayerManager extends Nette\Object
 		$this->database = $database;
 	}
 
-	/**
-	 * Adds new game.
-	 * @param  string
-	 * @param  string
-	 * @return void
-	 */
-
-	/*public function add($name, $totalRounds=10)
+	public function add($name, $gameId)
 	{
-		try {
-			$row = $this->database->table("game")->insert(array(
-				"name" => $name,
-				"totalRounds" => $totalRounds,
-				"date" => new \DateTime,
-				"round" => 1,
-				"finished" => 0,
-				"state" => 1
-			));
-		} catch (Nette\Database\UniqueConstraintViolationException $e) {
-			throw new DuplicateNameException;
-		}
+		$row = $this->database->table("player")->insert(array(
+			"name" => $name,
+			"game_id" => $gameId,
+			"points" => 0,
+		));
 		return $row->id;
-	}*/
-
-	public function getGames() {
-		return $this->database->table("game")->order("date DESC");
-	}
-
-	public function getGame($id) {
-		return $this->database->table("game")->get($id);
 	}
 
 	public function getPlayersList($value='') {
