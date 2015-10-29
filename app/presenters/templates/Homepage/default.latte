@@ -27,7 +27,7 @@
           <div class="inner cover"><br>
             <h2 class="cover-heading">Seznam her</h1>
             <ul class="list-unstyled">
-              <li n:foreach="$games as $game"><a href="">{$game->name}</a></li>
+              <li n:foreach="$games as $game"><a n:href="GamePrep:default, $game->id">{$game->name}</a></li>
             </ul>
           </div>
 
