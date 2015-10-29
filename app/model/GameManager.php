@@ -51,4 +51,8 @@ class GameManager extends Nette\Object
 		return $this->database->table("game")->get($id);
 	}
 
+	public function getGamePlayers($id) {
+		return $this->getGame($id)->related("player.game_id");
+	}
+
 }

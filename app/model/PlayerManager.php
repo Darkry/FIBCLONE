@@ -26,8 +26,4 @@ class PlayerManager extends Nette\Object
 		return $row->id;
 	}
 
-	public function getPlayersList($value='') {
-		# code...
-	}
-
 }

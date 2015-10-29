@@ -22,6 +22,7 @@ class GamePrepPresenter extends BasePresenter
 	{
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
+		$this->template->players = $this->gameDb->getGamePlayers($id);
 	}
 
 	public function renderJoinGame($id) {

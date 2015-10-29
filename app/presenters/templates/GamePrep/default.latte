@@ -6,5 +6,8 @@
 <br>
 
 <h2>Seznam hráčů</h2>
+	<ul>
+		<li n:foreach="$players as $player">{$player->name}</li>
+	</ul>
 <button type="button" class="btn btn-default btn-lg active">Zahájit hru</button>
 </div>
