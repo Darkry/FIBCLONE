@@ -21,24 +21,6 @@ class GamePrepPresenter extends BasePresenter
 		$this->template->game = $this->game;
 	}
 
-	public function createComponentAddPlayerForm() {
-		$form = new UI\Form;
-		$form->addText('name', 'Jméno:');
-		$form->addSubmit('submit', 'Přidat hráče');
-        $form->onSuccess[] = array($this, 'addPlayerFormSucceeded');
-        return $form;
-	}
-
-	public function addPlayerFormSucceeded(UI\Form $form, $values) {
-		$gameId = $this->playerDb->add($values->name);
-
-		if(!$this->isAjax())
-        	$this->redirect('GamePrep:', $gameId);
-        else {
-        	$this->redrawControl("playerList");
-        	$this->redrawControl("flashMessages");
-        }
-
-	}
+	
 
 }
