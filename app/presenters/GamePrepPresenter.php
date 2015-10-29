@@ -37,10 +37,8 @@ class GamePrepPresenter extends BasePresenter
         return $form;
 	}
 
-	public function addGameFormSucceeded(UI\Form $form, $values) {
-		$this->playerDb->add($values->name, $this->game->id);
-
-
+	public function joinGameFormSucceeded(UI\Form $form, $values) {
+		$this->playerDb->add($values->name, $this->getParameter("id"));
 	}
 
 }
