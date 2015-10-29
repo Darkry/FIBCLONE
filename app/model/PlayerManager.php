@@ -22,8 +22,8 @@ class PlayerManager extends Nette\Object
 	 * @param  string
 	 * @return void
 	 */
-	/*
-	public function add($name, $totalRounds=10)
+
+	/*public function add($name, $totalRounds=10)
 	{
 		try {
 			$row = $this->database->table("game")->insert(array(
@@ -38,7 +38,7 @@ class PlayerManager extends Nette\Object
 			throw new DuplicateNameException;
 		}
 		return $row->id;
-	}
+	}*/
 
 	public function getGames() {
 		return $this->database->table("game")->order("date DESC");
@@ -46,6 +46,10 @@ class PlayerManager extends Nette\Object
 
 	public function getGame($id) {
 		return $this->database->table("game")->get($id);
-	}*/
+	}
+
+	public function getPlayersList($value='') {
+		# code...
+	}
 
 }
