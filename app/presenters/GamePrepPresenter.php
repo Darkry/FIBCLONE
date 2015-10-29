@@ -13,6 +13,9 @@ class GamePrepPresenter extends BasePresenter
 	/** @var \App\Model\GameManager @inject */
     public $gameDb;
 
+    /** @var \App\Model\PlayerManager @inject */
+    public $playerDb;
+
     private $game;
 
 	public function renderDefault($id)
@@ -37,7 +40,7 @@ class GamePrepPresenter extends BasePresenter
 	public function addGameFormSucceeded(UI\Form $form, $values) {
 		$this->playerDb->add($values->name, $this->game->id);
 
-		
+
 	}
 
 }
