@@ -55,4 +55,8 @@ class GameManager extends Nette\Object
 		return $this->getGame($id)->related("player.game_id");
 	}
 
+	public function getPlayersCount($gameId) {
+		return $this->getGame($gameId)->related("player.game_id")->count();
+	}
+
 }
