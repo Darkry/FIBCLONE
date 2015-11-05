@@ -39,7 +39,12 @@ class GamePrepPresenter extends BasePresenter
 	}
 
 	public function joinGameFormSucceeded(UI\Form $form, $values) {
-		$this->playerDb->add($values->name, $this->getParameter("id"));
+		if ($this->gameDb->getPlayersCount($this->gameDb->getGame($this->getParameter("id"))) < 10) {
+			$this->playerDb->add($values->name, $this->getParameter("id"));
+		} else {
+			//todo flash msg
+			$this->redirect("Homepage:default");
+		}
 	}
 
 	public function handleRefreshPlayersList() {
