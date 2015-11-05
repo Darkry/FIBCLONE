@@ -1,3 +1,19 @@
+{block script}
+	
+	<script type="text/javascript">
+		function refreshPlayersList() {
+			$.nette.ajax({
+                url: {link refreshPlayersList!}
+            });
+		}
+
+		setInterval(function() {
+			refreshPlayersList();
+		}, 3000);
+	</script>
+
+{/block}
+
 {block content}
 <div class="cover-container">
   <h1>Hra {$game->name} se připravuje...</h1>
@@ -7,7 +23,7 @@
 <br>
 
 <h2>Seznam hráčů</h2>
-	<ul class="list-unstyled">
+	<ul class="list-unstyled" n:snippet="playersList">
 		<li n:foreach="$players as $player">{$player->name}</li>
 	</ul>
 <button type="button" class="btn btn-default btn-lg active">Zahájit hru</button>

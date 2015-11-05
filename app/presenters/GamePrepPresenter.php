@@ -42,4 +42,10 @@ class GamePrepPresenter extends BasePresenter
 		$this->playerDb->add($values->name, $this->getParameter("id"));
 	}
 
+	public function handleRefreshPlayersList() {
+		if ($this->isAjax()) {
+			$this->redrawControl('playersList');
+		}
+	}
+
 }
