@@ -30,6 +30,10 @@ class GamePrepPresenter extends BasePresenter
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
 		$this->template->players = $this->gameDb->getPlayersCount($id);
+		if ($this->gameDb->isGameStarted($this->gameDb->getGame($this->getParameter("id"))) != 1) {
+			$this->flashMessage("Bohužel hra již začala.", "error");
+			$this->redirect("Homepage:");
+		}
 	}
 
 	public function createComponentJoinGameForm() {
