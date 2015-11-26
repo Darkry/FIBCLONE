@@ -28,6 +28,7 @@ class GamePrepPresenter extends BasePresenter
 	public function renderJoinGame($id) {
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
+		$this->template->players = $this->gameDb->getPlayersCount($id);
 	}
 
 	public function createComponentJoinGameForm() {
@@ -42,8 +43,7 @@ class GamePrepPresenter extends BasePresenter
 		if ($this->gameDb->getPlayersCount($this->gameDb->getGame($this->getParameter("id"))) < 10) {
 			$this->playerDb->add($values->name, $this->getParameter("id"));
 		} else {
-			//todo flash msg
-			$this->redirect("Homepage:default");
+			$this->flashmessage("test");
 		}
 	}
 
