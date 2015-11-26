@@ -1,0 +1,20 @@
+.flash {
+	width: 50%;
+	height: auto;
+	padding: 20px;
+	font-weight: bold;
+	margin: 0 auto;
+	border: 2px black;
+	background: lightgray;
+	color: black;
+	font-size: 14px;
+	font-family: Verdana, serif;
+}
+
+.flash.error {
+	background: red;
+}
+
+.flash.success {
+	background: green;
+}

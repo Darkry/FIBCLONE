@@ -2,17 +2,17 @@
 	<div class="cover-container">
 	  <h1>Připojování do hry {$game->name}:</h1>
 	<br>
-	{if $players < 10}
-	{form joinGameForm}
-            <p class="lead">{input name class => "form-control", placeholder => "Vaše přezdívka"}</p>
-            <p class="lead">
-              {input submit class => "btn btn-lg btn-default"}
-            </p>
-    {/form}
-    {else}
-    	<p class="flash">ff</p>
-    {/if}
     {foreach $flashes as $flash}
-    	<p class="flash {$flash->type}">{$flash->message}</p>
-	{/foreach}
+        <p class="flash {$flash->type}">{$flash->message}</p>
+    {/foreach}
+	{if $players < 10}
+    	{form joinGameForm}
+                <p class="lead">{input name class => "form-control", placeholder => "Vaše přezdívka"}</p>
+                <p class="lead">
+                  {input submit class => "btn btn-lg btn-default"}
+                </p>
+        {/form}
+    {else}
+    	<h3>Hra je plná, nemůžete se připojit.</h3>
+    {/if}
 </div>
