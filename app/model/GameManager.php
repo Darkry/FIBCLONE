@@ -6,7 +6,14 @@ use Nette;
 
 
 /**
- * Users management.
+ * Game management.
+*
+*	STATE = 1 - waiting for players
+*	STATE = 2 - game playing - lvl 1
+*	STATE = 3 - game playing - lvl 2
+*	STATE = 4 - game playing - results
+*
+*
  */
 class GameManager extends Nette\Object
 {
@@ -57,6 +64,10 @@ class GameManager extends Nette\Object
 
 	public function getPlayersCount($gameId) {
 		return $this->getGame($gameId)->related("player.game_id")->count();
+	}
+
+	public function isGameStarted($id) {
+		return ($this->getGame($gameId)->related("player.game_id")->state === 1);
 	}
 
 }
