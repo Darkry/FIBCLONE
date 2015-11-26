@@ -43,7 +43,7 @@ class GamePrepPresenter extends BasePresenter
 		if ($this->gameDb->getPlayersCount($this->gameDb->getGame($this->getParameter("id"))) < 10) {
 			$this->playerDb->add($values->name, $this->getParameter("id"));
 		} else {
-			$this->flashMessage("Bohužel už je hra plná, zkuste se připojit k nějaké jiné hře.");
+			$this->flashMessage("Bohužel už je hra plná, zkuste se připojit k nějaké jiné hře.", "error");
 			$this->redirect("this");
 		}
 	}
