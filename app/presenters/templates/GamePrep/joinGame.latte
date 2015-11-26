@@ -2,9 +2,6 @@
 	<div class="cover-container">
 	  <h1>Připojování do hry {$game->name}:</h1>
 	<br>
-    {foreach $flashes as $flash}
-        <p class="flash {$flash->type}">{$flash->message}</p>
-    {/foreach}
 	{if $players < 10}
     	{form joinGameForm}
                 <ul class="errors" n:if="$form->hasErrors()">

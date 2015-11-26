@@ -23,7 +23,9 @@
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
-
+        {foreach $flashes as $flash}
+          <p class="flash {$flash->type}">{$flash->message}</p>
+      {/foreach}
         {include content}
 
       </div>
