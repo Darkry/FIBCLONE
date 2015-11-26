@@ -7,6 +7,9 @@
     {/foreach}
 	{if $players < 10}
     	{form joinGameForm}
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
                 <p class="lead">{input name class => "form-control", placeholder => "Vaše přezdívka"}</p>
                 <p class="lead">
                   {input submit class => "btn btn-lg btn-default"}

@@ -18,6 +18,13 @@ class GamePrepPresenter extends BasePresenter
 
     private $game;
 
+    private $gameId;
+
+    public function startup() {
+    	parent::startup();
+    	$this->gameId = $this->getParameter("id");
+    }
+
 	public function renderDefault($id)
 	{
 		$this->game = $this->gameDb->getGame($id);
@@ -33,7 +40,10 @@ class GamePrepPresenter extends BasePresenter
 
 	public function createComponentJoinGameForm() {
 		$form = new UI\Form;
-		$form->addText('name', 'Přezdívka:');
+		$form->addText('name', 'Přezdívka:')
+			 ->addRule(function($input) {
+			 	return $this->playerDb->findPlayerByName($this->gameId, $input->value) === false;
+			 }, "Hráč s tímto jménem už je ve hře.");
 		$form->addSubmit('submit', 'Připojit se do hry');
         $form->onSuccess[] = array($this, 'joinGameFormSucceeded');
         return $form;

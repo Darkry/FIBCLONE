@@ -26,4 +26,8 @@ class PlayerManager extends Nette\Object
 		return $row->id;
 	}
 
+	public function findPlayerByName($gameId, $name) {
+		return $this->database->table("player")->where(array("game_id" => $gameId, "name" => $name))->fetch();
+	}
+
 }
