@@ -13,9 +13,6 @@ class GamePrepPresenter extends BasePresenter
 	/** @var \App\Model\GameManager @inject */
     public $gameDb;
 
-    /** @var \App\Model\PlayerManager @inject */
-    public $playerDb;
-
     private $game;
 
     private $gameId;
@@ -56,7 +53,7 @@ class GamePrepPresenter extends BasePresenter
 
 	public function joinGameFormSucceeded(UI\Form $form, $values) {
 		if ($this->gameDb->getPlayersCount($this->gameDb->getGame($this->getParameter("id"))) < 10) {
-			$this->playerDb->add($values->name, $this->getParameter("id"));
+			$this->logIn($this->getParameter("id"), $values->name, false);
 		} else {
 			$this->flashMessage("Bohužel už je hra plná, zkuste se připojit k nějaké jiné hře.", "error");
 			$this->redirect("this");
