@@ -28,6 +28,7 @@ class GamePrepPresenter extends BasePresenter
 		$this->template->game = $this->game;
 		$this->template->players = $this->gameDb->getGamePlayers($id);
 		$this->template->state = $this->gameDb->isGameStarted($id);
+		$this->template->isLoggedIn = $this->isLoggedIn();
 	}
 
 	public function renderJoinGame($id) {
@@ -54,9 +55,10 @@ class GamePrepPresenter extends BasePresenter
 	public function joinGameFormSucceeded(UI\Form $form, $values) {
 		if ($this->gameDb->getPlayersCount($this->gameDb->getGame($this->getParameter("id"))) < 10) {
 			$this->logIn($this->getParameter("id"), $values->name, false);
+			$this->redirect('GamePrep:', $this->getParameter("id"));
 		} else {
 			$this->flashMessage("Bohužel už je hra plná, zkuste se připojit k nějaké jiné hře.", "error");
-			$this->redirect("this");
+			$this->redirect("Homepage:");
 		}
 	}
 
