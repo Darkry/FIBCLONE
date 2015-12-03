@@ -63,15 +63,14 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 
 		if($creator === true) {
 			if($userName !== false)
-				throw new Exception("U zakladatele hry nesmí být uvedeno jméno.");
+				throw new \Exception("U zakladatele hry nesmí být uvedeno jméno.");
 
 				$player = $this->session->getSection("player");
 				$player->creator = true;
 				$player->gameId = $gameId;
 
 		}
-
-		if($this->playerDb->findPlayerByName($gameId, $userName) === false && $creator === false) {
+		else if($this->playerDb->findPlayerByName($gameId, $userName) === false && $creator === false) {
 			if($userName !== false) {
 				$id = $this->playerDb->add($userName, $gameId);
 
@@ -81,10 +80,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 				$player->gameId = $gameId;
 				$player->creator = false;
 			} else {
-				throw new Exception("Jméno hráče nebylo zadáno!");
+				throw new \Exception("Jméno hráče nebylo zadáno!");
 			}
 		} else {
-			throw new Exception("Hráč s tímto jménem už existuje nebo má proměnná 'creator' neplatnou hodnotu!");
+			throw new \Exception("Hráč s tímto jménem už existuje nebo má proměnná 'creator' neplatnou hodnotu!");
 		}
 	}
 
