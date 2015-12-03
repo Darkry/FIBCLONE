@@ -38,7 +38,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	}
 
 	public function getPlayerName() {
-		if($this->isLoggedIn())
+		if($this->isLoggedIn() && $this->isCreator == false)
 			return $this->getPlayer()->name;
 		else
 			return NULL;
@@ -51,18 +51,40 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 			return NULL;
 	}
 
+	public function getPlayerId() {
+		if($this->isLoggedIn() && $this->isCreator == false)
+			return $this->getPlayer()->id;
+		else
+			return NULL;
+	}
+
 	protected function logIn($gameId, $userName=false, $creator=false) {
 		$this->logout();
-		if($this->playerDb->findPlayerByName($gameId, $userName) === false) {
-			$id = $this->playerDb->add($userName, $gameId);
 
-			$player = $this->session->getSection("player");
-			$player->name = $userName;
-			$player->id = $id;
-			$player->gameId = $gameId;
-			$player->creator = false;
+		if($creator === true) {
+			if($userName !== false)
+				throw new Exception("U zakladatele hry nesmí být uvedeno jméno.");
+
+				$player = $this->session->getSection("player");
+				$player->creator = true;
+				$player->gameId = $gameId;
+
+		}
+
+		if($this->playerDb->findPlayerByName($gameId, $userName) === false && $creator === false) {
+			if($userName !== false) {
+				$id = $this->playerDb->add($userName, $gameId);
+
+				$player = $this->session->getSection("player");
+				$player->name = $userName;
+				$player->id = $id;
+				$player->gameId = $gameId;
+				$player->creator = false;
+			} else {
+				throw new Exception("Jméno hráče nebylo zadáno!");
+			}
 		} else {
-			throw new Exception("Hráč s tímto jménem už existuje!");
+			throw new Exception("Hráč s tímto jménem už existuje nebo má proměnná 'creator' neplatnou hodnotu!");
 		}
 	}
 

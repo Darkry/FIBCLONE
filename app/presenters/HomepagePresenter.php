@@ -29,6 +29,8 @@ class HomepagePresenter extends BasePresenter
 	public function addGameFormSucceeded(UI\Form $form, $values) {
 		$gameId = $this->gameDb->add($values->name);
 
+		$this->login($gameId, false, true);
+
         $this->redirect('GamePrep:', $gameId);
 	}
 
