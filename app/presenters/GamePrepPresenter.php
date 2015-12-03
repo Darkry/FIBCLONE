@@ -68,4 +68,13 @@ class GamePrepPresenter extends BasePresenter
 		}
 	}
 
+	public function handleStartGame() {
+		if($this->isCreator()) {
+			//TODO: Dodělat zahájení hry
+		} else {
+			$this->flashMessage("Hru může zahájit jen její tvůrce.");
+			$this->redirect("default", $this->gameId);
+		}
+	}
+
 }

@@ -22,7 +22,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     	$this->session = $this->getSession();
     }
 
-	protected function isLoggedIn() {
+	public function isLoggedIn() {
 		return $this->session->hasSection("player");
 	}
 
