@@ -20,7 +20,10 @@ class HomepagePresenter extends BasePresenter
 
 	public function createComponentAddGameForm() {
 		$form = new UI\Form;
-		$form->addText('name', 'Jméno:');
+		$form->addText('name', 'Jméno:')
+			->addRule(function($input) {
+			 	return $this->gameDb->findGameByName($input->value) === false;
+			 }, "Hra s tímto jménem už existuje, vyberte jiné.");
 		$form->addSubmit('submit', 'Vytvořit hru');
         $form->onSuccess[] = array($this, 'addGameFormSucceeded');
         return $form;

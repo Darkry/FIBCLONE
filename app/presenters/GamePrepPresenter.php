@@ -22,8 +22,20 @@ class GamePrepPresenter extends BasePresenter
     	$this->gameId = $this->getParameter("id");
     }
 
-	public function renderDefault($id)
-	{
+    public function checkGameExistence($id) {
+    	if ($this->gameDb->getGame($id) == NULL) {
+			$this->flashMessage("Tato hra bohužel neexistuje.", "error");
+			$this->redirect("Homepage:");
+		}
+
+    	if ($this->gameDb->isGameStarted($this->gameDb->getGame($this->getParameter("id"))) != 1) {
+			$this->flashMessage("Bohužel hra již začala.", "error");
+			$this->redirect("Homepage:");
+		}
+    }
+
+	public function renderDefault($id) {
+		$this->checkGameExistence($id);
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
 		$this->template->players = $this->gameDb->getGamePlayers($id);
@@ -32,13 +44,10 @@ class GamePrepPresenter extends BasePresenter
 	}
 
 	public function renderJoinGame($id) {
+		$this->checkGameExistence($id);
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
 		$this->template->players = $this->gameDb->getPlayersCount($id);
-		if ($this->gameDb->isGameStarted($this->gameDb->getGame($this->getParameter("id"))) != 1) {
-			$this->flashMessage("Bohužel hra již začala.", "error");
-			$this->redirect("Homepage:");
-		}
 	}
 
 	public function createComponentJoinGameForm() {
@@ -68,11 +77,16 @@ class GamePrepPresenter extends BasePresenter
 		}
 	}
 
-	public function handleStartGame() {
-		if($this->isCreator()) {
-			//TODO: Dodělat zahájení hry
-		} else {
-			$this->flashMessage("Hru může zahájit jen její tvůrce.");
+	public function handleStartGame($id) {
+		if($this->isLoggedIn()) {
+			if($this->isCreator() && $id == $this->getPlayer()->gameId) {
+				//TODO: Dodělat zahájení hry
+			} else {
+				$this->flashMessage("Hru může zahájit jen její tvůrce.");
+				$this->redirect("default", $this->gameId);
+			}
+		else {
+			$this->flashMessage("Pro zahájení hry musíte být přihlášen.");
 			$this->redirect("default", $this->gameId);
 		}
 	}

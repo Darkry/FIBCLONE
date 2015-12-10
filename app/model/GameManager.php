@@ -70,4 +70,8 @@ class GameManager extends Nette\Object
 		return ($this->getGame($id)->state === 1);
 	}
 
+	public function findGameByName($name) {
+		return $this->database->table("game")->where(array("name" => $name))->fetch();
+	}
+
 }
