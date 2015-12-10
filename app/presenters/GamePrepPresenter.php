@@ -81,6 +81,12 @@ class GamePrepPresenter extends BasePresenter
 		}
 	}
 
+	public function handleIsGameStarted() {
+		if ($this->isAjax()) {
+			$this->redrawControl('coverContainer');
+		}
+	}
+
 	public function handleStartGame($id) {
 		if($this->isLoggedIn()) {
 			if($this->isCreator()) {

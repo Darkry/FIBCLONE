@@ -10,12 +10,22 @@
 		setInterval(function() {
 			refreshPlayersList();
 		}, 3000);
+
+		function isGameStarted() {
+			$.nette.ajax({
+                url: {link isGameStarted!}
+            });
+		}
+
+		setInterval(function() {
+			isGameStarted();
+		}, 1000);
 	</script>
 
 {/block}
 
 {block content}
-<div class="cover-container">
+<div class="cover-container" n:snippet="coverContainer">
   <h1 n:if="$state == 1">Hra {$game->name} se připravuje...</h1>
   <h1 n:if="$state != 1">Hra {$game->name} již byla zahájena...</h1>
 <br>
