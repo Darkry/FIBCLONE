@@ -27,6 +27,14 @@ class GamePrepPresenter extends BasePresenter
     		$this->flashMessage("Pokusil jste se vstoupit do jiné hry, byl jste proto přesměrován do té Vaší. Pokud chcete hrát jinou hru, nejprve se odhlašte.", "message");
     		$this->redirect("default", $this->getPlayer()->gameId);
     	}
+
+    	$this->checkGameExistence($this->gameId);
+
+    	if($this->isLoggedIn() && $this->checkPlayerExistence() == FALSE) {
+    		$this->logout();
+    		$this->flashMessage("Tato hra už pravděpodobně neexistuje, nebo jste z ní byl vyhozen.");
+			$this->redirect("Homepage:");
+    	}
     }
 
     public function checkGameExistence($id) {
@@ -42,7 +50,6 @@ class GamePrepPresenter extends BasePresenter
     }
 
 	public function renderDefault($id) {
-		$this->checkGameExistence($id);
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
 		$this->template->players = $this->gameDb->getGamePlayers($id);
@@ -51,7 +58,6 @@ class GamePrepPresenter extends BasePresenter
 	}
 
 	public function renderJoinGame($id) {
-		$this->checkGameExistence($id);
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
 		$this->template->players = $this->gameDb->getPlayersCount($id);
@@ -128,7 +134,7 @@ class GamePrepPresenter extends BasePresenter
 
 	public function handleLogOut() {
 		if(!$this->isCreator()) {
-			$this->playerDb->removePlayer($id);
+			$this->playerDb->removePlayer($this->getPlayerId());
 			$this->logout();
 			$this->redirect("Homepage:");
 		} else {

@@ -37,6 +37,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 			return NULL;
 	}
 
+	public function checkPlayerExistence() {
+		if($this->isLoggedIn()) {
+			if($this->isCreator())
+				return TRUE;
+			else
+				return ($this->playerDb->getPlayer($this->getPlayerId()) != NULL);
+		} else
+			throw new \Exception("Checking Db existence of not logged-in player.");
+	}
+
 	public function getPlayerName() {
 		if($this->isLoggedIn() && $this->isCreator == false)
 			return $this->getPlayer()->name;
@@ -52,7 +62,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	}
 
 	public function getPlayerId() {
-		if($this->isLoggedIn() && $this->isCreator == false)
+		if($this->isLoggedIn() && $this->isCreator() == false)
 			return $this->getPlayer()->id;
 		else
 			return NULL;
