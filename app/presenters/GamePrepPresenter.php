@@ -86,7 +86,10 @@ class GamePrepPresenter extends BasePresenter
 
 	public function handleIsGameStarted() {
 		if ($this->isAjax()) {
-			$this->redrawControl('coverContainer');
+			if ($this->gameDb->isGameStarted($this->gameId) != 1) {
+				$this->flashMessage("Bohužel hra již začala.", "error");
+				$this->redirect("Homepage:");
+			}
 		}
 	}
 
@@ -101,6 +104,24 @@ class GamePrepPresenter extends BasePresenter
 		}
 		else {
 			$this->flashMessage("Pro zahájení hry musíte být přihlášen.");
+			$this->redirect("default", $this->gameId);
+		}
+	}
+
+	public function handleStopGame($id) {
+		if($this->isLoggedIn()) {
+			if($this->isCreator()) {
+				$this->gameDb->deleteGame($this->gameId);
+				$this->logout();
+				$this->flashMessage("Hra byla smazána.");
+				$this->redirect("Homepage:");
+			} else {
+				$this->flashMessage("Hru může zrušit jen její tvůrce.");
+				$this->redirect("default", $this->gameId);
+			}
+		}
+		else {
+			$this->flashMessage("Pro zrušení hry musíte být přihlášen.");
 			$this->redirect("default", $this->gameId);
 		}
 	}

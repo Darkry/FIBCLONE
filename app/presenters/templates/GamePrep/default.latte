@@ -25,7 +25,7 @@
 {/block}
 
 {block content}
-<div class="cover-container" n:snippet="coverContainer">
+<div class="cover-container">
   <h1 n:if="$state == 1">Hra {$game->name} se připravuje...</h1>
   <h1 n:if="$state != 1">Hra {$game->name} již byla zahájena...</h1>
 <br>
@@ -42,6 +42,7 @@
 	</ul>
 	{if $presenter->isCreator()}
 		<a n:href="startGame!"><button n:if="$state == 1" type="button" class="btn btn-default btn-lg active">Zahájit hru</button></a>
+		<a n:href="stopGame!"><button n:if="$state == 1" type="button" class="btn btn-default btn-lg active stop">Zrušit hru</button></a>
 	{/if}
 
 	{if $presenter->isLoggedIn() && !$presenter->isCreator()}

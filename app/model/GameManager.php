@@ -74,4 +74,9 @@ class GameManager extends Nette\Object
 		return $this->database->table("game")->where(array("name" => $name))->fetch();
 	}
 
+	public function deleteGame($id) {
+		$this->getGame($id)->related("player.game_id")->delete();
+		$this->getGame($id)->delete();
+	}
+
 }
