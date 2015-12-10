@@ -20,6 +20,10 @@ class GamePrepPresenter extends BasePresenter
     public function startup() {
     	parent::startup();
     	$this->gameId = $this->getParameter("id");
+    	if($this->isLoggedIn() && $this->gameId != $this->getPlayer()->gameId) {
+    		$this->flashMessage("Jste přihlášení do jiné hry. Byl jste do ní přesměrován. Pokud chcete hrát jinou hru, nejprve se odhlašte.", "message");
+    		$this->redirect("default", $this->getPlayer()->gameId);
+    	}
     }
 
     public function checkGameExistence($id) {
@@ -79,7 +83,7 @@ class GamePrepPresenter extends BasePresenter
 
 	public function handleStartGame($id) {
 		if($this->isLoggedIn()) {
-			if($this->isCreator() && $id == $this->getPlayer()->gameId) {
+			if($this->isCreator()) {
 				//TODO: Dodělat zahájení hry
 			} else {
 				$this->flashMessage("Hru může zahájit jen její tvůrce.");
