@@ -146,3 +146,8 @@ body {
         width: 700px;
     }
 }
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+}

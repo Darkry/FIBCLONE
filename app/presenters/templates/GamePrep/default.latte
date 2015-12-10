@@ -19,8 +19,8 @@
   <h1 n:if="$state == 1">Hra {$game->name} se připravuje...</h1>
   <h1 n:if="$state != 1">Hra {$game->name} již byla zahájena...</h1>
 <br>
-{if $state == 1 && !$isLoggedIn}
-	<h2 n:if="count($players) < 10">Odkaz na připojení: <a n:href="joinGame, $game->id">.../game-prep/join-game/{$game->id}</a></h2>
+{if $state == 1 && !$isLoggedIn || $presenter->isCreator()}
+	<h2 n:if="count($players) < 10">Odkaz na připojení: <a n:href="joinGame, $game->id" n:class="$presenter->isCreator() ? not-active">.../game-prep/join-game/{$game->id}</a></h2>
 	<h2 n:if="count($players) == 10">Maximální počet hráčů je již ve hře</h2>
 <br>
 {/if}
