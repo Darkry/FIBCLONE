@@ -85,6 +85,7 @@ class GamePrepPresenter extends BasePresenter
 				$this->flashMessage("Hru může zahájit jen její tvůrce.");
 				$this->redirect("default", $this->gameId);
 			}
+		}
 		else {
 			$this->flashMessage("Pro zahájení hry musíte být přihlášen.");
 			$this->redirect("default", $this->gameId);
