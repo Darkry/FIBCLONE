@@ -13,6 +13,9 @@ class GamePrepPresenter extends BasePresenter
 	/** @var \App\Model\GameManager @inject */
     public $gameDb;
 
+    /** @var \App\Model\PlayerManager @inject */
+    public $playerDb;
+
     private $game;
 
     private $gameId;
@@ -21,7 +24,7 @@ class GamePrepPresenter extends BasePresenter
     	parent::startup();
     	$this->gameId = $this->getParameter("id");
     	if($this->isLoggedIn() && $this->gameId != $this->getPlayer()->gameId) {
-    		$this->flashMessage("Jste přihlášení do jiné hry. Byl jste do ní přesměrován. Pokud chcete hrát jinou hru, nejprve se odhlašte.", "message");
+    		$this->flashMessage("Pokusil jste se vstoupit do jiné hry, byl jste proto přesměrován do té Vaší. Pokud chcete hrát jinou hru, nejprve se odhlašte.", "message");
     		$this->redirect("default", $this->getPlayer()->gameId);
     	}
     }
@@ -98,6 +101,17 @@ class GamePrepPresenter extends BasePresenter
 		}
 		else {
 			$this->flashMessage("Pro zahájení hry musíte být přihlášen.");
+			$this->redirect("default", $this->gameId);
+		}
+	}
+
+	public function handleLogOut() {
+		if(!$this->isCreator()) {
+			$this->playerDb->removePlayer($id);
+			$this->logout();
+			$this->redirect("Homepage:");
+		} else {
+			$this->flashMessage("Jako tvůrce hry se nemůžete, můžete ale zrušit celou hru.");
 			$this->redirect("default", $this->gameId);
 		}
 	}

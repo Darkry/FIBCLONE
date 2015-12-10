@@ -43,4 +43,8 @@
 	{if $presenter->isCreator()}
 		<a n:href="startGame!"><button n:if="$state == 1" type="button" class="btn btn-default btn-lg active">Zahájit hru</button></a>
 	{/if}
+
+	{if $presenter->isLoggedIn() && !$presenter->isCreator()}
+		<a n:href="logOut!"><button type="button" class="btn btn-default btn-lg active">Odhlásit se</button></a>
+	{/if}
 </div>

@@ -30,4 +30,12 @@ class PlayerManager extends Nette\Object
 		return $this->database->table("player")->where(array("game_id" => $gameId, "name" => $name))->fetch();
 	}
 
+	public function getPlayer($id) {
+		return $this->database->table('player')->get($id);
+	}
+
+	public function removePlayer($id) {
+		return $this->getPlayer($id)->delete();
+	}
+
 }
