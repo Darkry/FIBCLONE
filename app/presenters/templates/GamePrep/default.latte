@@ -28,11 +28,11 @@
 
 {block content}
 <div class="cover-container">
-  <h1 n:if="$state == 1">Hra {$game->name} se připravuje...</h1>
-  <h1 n:if="$state != 1">Hra {$game->name} již byla zahájena...</h1>
+  <h1 n:if="$isGameStarted == false">Hra {$game->name} se připravuje...</h1>
+  <h1 n:if="$isGameStarted == true">Hra {$game->name} již byla zahájena...</h1>
 
 <br>
-{if $state == 1 && !$isLoggedIn || $presenter->isCreator()}
+{if $isGameStarted == false && !$isLoggedIn || $presenter->isCreator()}
 	<h2 n:if="count($players) < 10">Odkaz na připojení: <a n:href="joinGame, $game->id" n:class="$presenter->isCreator() ? not-active">.../game-prep/join-game/{$game->id}</a></h2>
 	<h2 n:if="count($players) == 10">Maximální počet hráčů je již ve hře</h2>
 <br>
@@ -44,8 +44,8 @@
 		<li n:foreach="$players as $player">{$player->name}</li>
 	</ul>
 	{if $presenter->isCreator()}
-		<a n:href="startGame!"><button n:if="$state == 1" type="button" class="btn btn-default btn-lg active">Zahájit hru</button></a>
-		<a n:href="stopGame!"><button n:if="$state == 1" type="button" class="btn btn-default btn-lg active stop">Zrušit hru</button></a>
+		<a n:href="startGame!"><button n:if="$isGameStarted == false" type="button" class="btn btn-default btn-lg active">Zahájit hru</button></a>
+		<a n:href="stopGame!"><button n:if="$isGameStarted == false" type="button" class="btn btn-default btn-lg active stop">Zrušit hru</button></a>
 	{/if}
 
 	{if $presenter->isLoggedIn() && !$presenter->isCreator()}

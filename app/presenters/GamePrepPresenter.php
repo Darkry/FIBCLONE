@@ -23,10 +23,14 @@ class GamePrepPresenter extends BasePresenter
     public function startup() {
     	parent::startup();
     	$this->gameId = $this->getParameter("id");
+
     	if($this->isLoggedIn() && $this->gameId != $this->getPlayer()->gameId) {
     		$this->flashMessage("Pokusil jste se vstoupit do jiné hry, byl jste proto přesměrován do té Vaší. Pokud chcete hrát jinou hru, nejprve se odhlašte.", "message");
     		$this->redirect("default", $this->getPlayer()->gameId);
     	}
+
+    	if($this->isLoggedIn() && $this->gameDb->isGameStarted($this->gameId))
+    		$this->redirect("GamePlayer:default", $this->gameId);
 
     	$this->checkGameExistence($this->gameId);
 
@@ -43,7 +47,7 @@ class GamePrepPresenter extends BasePresenter
 			$this->redirect("Homepage:");
 		}
 
-    	if ($this->gameDb->isGameStarted($this->gameDb->getGame($this->getParameter("id"))) != 1) {
+    	if ($this->gameDb->isGameStarted($this->gameDb->getGame($this->getParameter("id")))) {
 			$this->flashMessage("Bohužel hra již začala.", "error");
 			$this->redirect("Homepage:");
 		}
@@ -53,7 +57,7 @@ class GamePrepPresenter extends BasePresenter
 		$this->game = $this->gameDb->getGame($id);
 		$this->template->game = $this->game;
 		$this->template->players = $this->gameDb->getGamePlayers($id);
-		$this->template->state = $this->gameDb->isGameStarted($id);
+		$this->template->isGameStarted = $this->gameDb->isGameStarted($id);
 		$this->template->isLoggedIn = $this->isLoggedIn();
 	}
 
@@ -92,7 +96,7 @@ class GamePrepPresenter extends BasePresenter
 
 	public function handleIsGameStarted() {
 		if ($this->isAjax()) {
-			if ($this->gameDb->isGameStarted($this->gameId) != 1) {
+			if ($this->gameDb->isGameStarted($this->gameId)) {
 				$this->flashMessage("Bohužel hra již začala.", "error");
 				$this->redirect("Homepage:");
 			}
@@ -102,7 +106,8 @@ class GamePrepPresenter extends BasePresenter
 	public function handleStartGame($id) {
 		if($this->isLoggedIn()) {
 			if($this->isCreator()) {
-				//TODO: Dodělat zahájení hry
+				$this->gameDb->resetGame($id);
+				$this->redirect("GameOwner:default");
 			} else {
 				$this->flashMessage("Hru může zahájit jen její tvůrce.");
 				$this->redirect("default", $this->gameId);

@@ -66,7 +66,7 @@ class GameManager extends Nette\Object
 	}
 
 	public function isGameStarted($id) {
-		return ($this->getGame($id)->state === 1);
+		return ($this->getGame($id)->state >= 2);
 	}
 
 	public function findGameByName($name) {

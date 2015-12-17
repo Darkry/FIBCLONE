@@ -13,7 +13,7 @@ class GameOwnerPresenter extends BasePresenter
 	/** @var \App\Model\GameManager @inject */
     public $gameDb;
 
-	public function renderDefault()
+	public function renderDefault($id)
 	{
 		
 	}
