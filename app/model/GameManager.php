@@ -10,8 +10,7 @@ use Nette;
 *
 *	STATE = 1 - waiting for players
 *	STATE = 2 - game playing - lvl 1
-*	STATE = 3 - game playing - lvl 2
-*	STATE = 4 - game playing - results
+*	STATE = 3 - game ended - results
 *
 *
  */
@@ -41,8 +40,8 @@ class GameManager extends Nette\Object
 				"totalRounds" => $totalRounds,
 				"date" => new \DateTime,
 				"round" => 1,
-				"finished" => 0,
-				"state" => 1
+				"state" => 1,
+				"roundPhase" => 1
 			));
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
@@ -77,6 +76,10 @@ class GameManager extends Nette\Object
 	public function deleteGame($id) {
 		$this->getGame($id)->related("player.game_id")->delete();
 		$this->getGame($id)->delete();
+	}
+
+	public function resetGame($id) {
+		return $this->getGame($id)->update(array("round" => 1, "roundPhase" => 1, "state" => 2));
 	}
 
 }
