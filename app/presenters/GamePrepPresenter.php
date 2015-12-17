@@ -88,15 +88,10 @@ class GamePrepPresenter extends BasePresenter
 		}
 	}
 
-	public function handleRefreshPlayersList() {
+	public function handlePlayersAndGameState() {
 		if ($this->isAjax()) {
 			$this->redrawControl('playersList');
-		}
-	}
-
-	public function handleIsGameStarted() {
-		if ($this->isAjax()) {
-			if ($this->gameDb->isGameStarted($this->gameId)) {
+			if (!$this->isCreator() && $this->gameDb->isGameStarted($this->gameId) != 1) {
 				$this->flashMessage("Bohužel hra již začala.", "error");
 				$this->redirect("Homepage:");
 			}

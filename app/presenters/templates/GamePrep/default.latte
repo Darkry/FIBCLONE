@@ -1,27 +1,16 @@
 {block script}
 	
 	<script type="text/javascript">
-		function refreshPlayersList() {
+		function playersAndGameState() {
 			$.nette.ajax({
-                url: {link refreshPlayersList!}
+                url: {link playersAndGameState!}
             });
 		}
 
 		setInterval(function() {
-			refreshPlayersList();
-		}, 30000);
-
-		{if !$presenter->isCreator()}
-		function isGameStarted() {
-			$.nette.ajax({
-                url: {link isGameStarted!}
-            });
-		}
-
-		setInterval(function() {
-			isGameStarted();
+			playersAndGameState();
 		}, 10000);
-		{/if}
+	</script>
 	</script>
 
 {/block}
