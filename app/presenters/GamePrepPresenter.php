@@ -30,9 +30,6 @@ class GamePrepPresenter extends BasePresenter
     		$this->redirect("default", $this->getPlayer()->gameId);
     	}
 
-    	if($this->isLoggedIn() && $this->gameDb->isGameStarted($this->gameId))
-    		$this->redirect("GamePlayer:default", $this->gameId);
-
     	$this->checkGameExistence($this->gameId);
 
     	if($this->isLoggedIn() && $this->checkPlayerExistence() == FALSE) {
@@ -40,6 +37,9 @@ class GamePrepPresenter extends BasePresenter
     		$this->flashMessage("Tato hra už pravděpodobně neexistuje, nebo jste z ní byl vyhozen.");
 			$this->redirect("Homepage:");
     	}
+
+    	if($this->isLoggedIn() && $this->gameDb->isGameStarted($this->gameId))
+    		$this->redirect("GamePlayer:default", $this->gameId);
     }
 
     public function checkGameExistence($id) {
@@ -48,7 +48,7 @@ class GamePrepPresenter extends BasePresenter
 			$this->redirect("Homepage:");
 		}
 
-    	if ($this->gameDb->isGameStarted($this->gameDb->getGame($this->getParameter("id")))) {
+    	if (!$this->isLoggedIn() && $this->gameDb->isGameStarted($this->gameDb->getGame($this->getParameter("id")))) {
 			$this->flashMessage("Bohužel hra již začala.", "error");
 			$this->redirect("Homepage:");
 		}
