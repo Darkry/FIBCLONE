@@ -22,6 +22,7 @@ class GamePrepPresenter extends BasePresenter
 
     public function startup() {
     	parent::startup();
+
     	$this->gameId = $this->getParameter("id");
 
     	if($this->isLoggedIn() && $this->gameId != $this->getPlayer()->gameId) {
@@ -91,10 +92,6 @@ class GamePrepPresenter extends BasePresenter
 	public function handlePlayersAndGameState() {
 		if ($this->isAjax()) {
 			$this->redrawControl('playersList');
-			if (!$this->isCreator() && $this->gameDb->isGameStarted($this->gameId) != 1) {
-				$this->flashMessage("Bohužel hra již začala.", "error");
-				$this->redirect("Homepage:");
-			}
 		}
 	}
 
